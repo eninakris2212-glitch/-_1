@@ -4,66 +4,74 @@ import json
 with open('orders_july_2023.json', 'r') as my_file:
     orders = json.load(my_file)
 
-# 1. Номер заказа с самой дорогой покупкой за июль
+# 1. Какой номер самого дорогого заказа за июль?
 max_price = 0
 max_order = None
-for order in orders:
+for order_num, order in orders.items():
     price = order['price']
     if price > max_price:
         max_price = price
-        max_order = order['order_id']
-print(f'Номер заказа с самой дорогой покупкой: {max_order}, стоимость заказа: {max_price}')
+        max_order = order_num
+print(f'Номер заказа с самой большой стоимостью: {max_order}, стоимость заказа: {max_price}')
 
-# 2. Номер заказа с самым большим количеством товаров
+# 2. Какой номер заказа с самым большим количеством товаров?
 max_quantity = 0
 max_order = None
-for order in orders:
+for order_num, order in orders.items():
     quantity = order['quantity']
     if quantity > max_quantity:
         max_quantity = quantity
-        max_order = order['order_id']
+        max_order = order_num
 print(f'Номер заказа с самым большим количеством товаров: {max_order}, количество товаров: {max_quantity}')
 
 # 3. В какой день было сделано больше всего заказов?
-orders_by_date = {}
-for order in orders:
+order_dates = {}
+for order_num, order in orders.items():
     date = order['date']
-    if date in orders_by_date:
-        orders_by_date[date] += 1
+    if date in order_dates:
+        order_dates[date] += 1
     else:
-        orders_by_date[date] = 1
-max_orders_date = max(orders_by_date, key=orders_by_date.get)
-print(f'В день {max_orders_date} было сделано больше всего заказов: {orders_by_date[max_orders_date]}')
+        order_dates[date] = 1
+max_orders_day = max(order_dates, key=order_dates.get)
+print(f'В день {max_orders_day} было сделано больше всего заказов: {order_dates[max_orders_day]}')
 
-# 4. Какой пользователь сделал больше всего заказов за июль?
-orders_by_user = {}
-for order in orders:
+# 4. Какое пользователь сделал больше всего заказов за июль?
+user_orders = {}
+for order_num, order in orders.items():
     user_id = order['user_id']
-    if user_id in orders_by_user:
-        orders_by_user[user_id] += 1
+    if user_id in user_orders:
+        user_orders[user_id] += 1
     else:
-        orders_by_user[user_id] = 1
-max_orders_user = max(orders_by_user, key=orders_by_user.get)
-print(f'Пользователь с ID {max_orders_user} сделал больше всего заказов: {orders_by_user[max_orders_user]}')
+        user_orders[user_id] = 1
+max_orders_user = max(user_orders, key=user_orders.get)
+print(f'Пользователь с ID {max_orders_user} сделал больше всего заказов: {user_orders[max_orders_user]}')
 
 # 5. У какого пользователя была самая большая суммарная стоимость заказов за июль?
-total_price_by_user = {}
-for order in orders:
+user_total_prices = {}
+for order_num, order in orders.items():
     user_id = order['user_id']
     price = order['price']
-    if user_id in total_price_by_user:
-        total_price_by_user[user_id] += price
+    if user_id in user_total_prices:
+        user_total_prices[user_id] += price
     else:
-        total_price_by_user[user_id] = price
-max_total_price_user = max(total_price_by_user, key=total_price_by_user.get)
-print(f'Пользователь с ID {max_total_price_user} имел самую большую суммарную стоимость заказов: {total_price_by_user[max_total_price_user]}')
+        user_total_prices[user_id] = price
+max_total_price_user = max(user_total_prices, key=user_total_prices.get)
+print(f'Пользователь с ID {max_total_price_user} имел самую большую суммарную стоимость заказов: {user_total_prices[max_total_price_user]}')
 
 # 6. Какая средняя стоимость заказа была в июле?
-total_price = sum(order['price'] for order in orders)
+total_price = sum(order['price'] for order in orders.values())
 average_price = total_price / len(orders)
 print(f'Средняя стоимость заказа в июле: {average_price}')
 
 # 7. Какая средняя стоимость товаров в заказе?
-total_quantity = sum(order['quantity'] for order in orders)
+total_quantity = sum(order['quantity'] for order in orders.values())
 average_price_per_item = total_price / total_quantity
 print(f'Средняя стоимость товаров в заказе: {average_price_per_item}')
+
+Номер заказа с самой большой стоимостью: o_182416, стоимость заказа: 29900
+Номер заказа с самым большим количеством товаров: o_182378, количество товаров: 20
+В день 2023-01-07 было сделано больше всего заказов: 33
+Пользователь с ID 455113 сделал больше всего заказов: 1
+Пользователь с ID 400067 имел самую большую суммарную стоимость заказов: 29900
+Средняя стоимость заказа в июле: 15314.2
+Средняя стоимость товаров в заказе: 1462.814022351705
