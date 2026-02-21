@@ -3,7 +3,7 @@ import json
 # Чтение данных из файла
 with open('orders_july_2023.json', 'r') as my_file:
     orders = json.load(my_file)
-
+    
 # 1. Какой номер самого дорогого заказа за июль?
 max_price = 0
 max_order = None
@@ -35,7 +35,7 @@ for order_num, order in orders.items():
 max_orders_day = max(order_dates, key=order_dates.get)
 print(f'В день {max_orders_day} было сделано больше всего заказов: {order_dates[max_orders_day]}')
 
-# 4. Какой пользователь сделал больше всего заказов за июль?
+# 4. Какое пользователь сделал больше всего заказов за июль?
 user_orders = {}
 for order_num, order in orders.items():
     user_id = order['user_id']
@@ -67,7 +67,7 @@ print(f'Средняя стоимость заказа в июле: {average_pri
 total_quantity = sum(order['quantity'] for order in orders.values())
 average_price_per_item = total_price / total_quantity
 print(f'Средняя стоимость товаров в заказе: {average_price_per_item}')
-
+    
 Номер заказа с самой большой стоимостью: o_182416, стоимость заказа: 29900
 Номер заказа с самым большим количеством товаров: o_182378, количество товаров: 20
 В день 2023-01-07 было сделано больше всего заказов: 33
