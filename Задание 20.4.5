@@ -35,7 +35,7 @@ for order_num, order in orders.items():
 max_orders_day = max(order_dates, key=order_dates.get)
 print(f'В день {max_orders_day} было сделано больше всего заказов: {order_dates[max_orders_day]}')
 
-# 4. Какое пользователь сделал больше всего заказов за июль?
+# 4. Какой пользователь сделал больше всего заказов за июль?
 user_orders = {}
 for order_num, order in orders.items():
     user_id = order['user_id']
