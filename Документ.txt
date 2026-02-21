@@ -1,2 +1,3 @@
 git status проверить изменения.
 git  push
+git log
