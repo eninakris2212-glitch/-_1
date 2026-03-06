@@ -1,0 +1,27 @@
+import requests
+import pandas as pd
+from bs4 import BeautifulSoup
+
+url = f'https://www.kinoafisha.info/rating/series/'
+
+r = requests.get(url)
+soup = BeautifulSoup(r.text, 'lxml')
+# Находим все элементы <div> с классом movieList_item movieItem movieItem-rating movieItem-position
+entries = soup.find_all('div', class_='movieList_item movieItem movieItem-rating movieItem-position')
+films = []
+for entry in entries:
+   # В элементе <div> ищем элемент 'a' и получаем его текстовое содержимое методом .text:
+   div_film_name = entry.find('a', class_='movieItem_title').text.strip()
+   # В элементе <div> ищем элемент 'span' и получаем его текстовое содержимое методом .text:
+   div_film_rating = entry.find('span', class_='rating_num').text.strip()
+   # В элементе <div> ищем элемент 'span' и получаем его текстовое содержимое методом .text:
+   div_film_year = entry.find('span', class_='movieItem_year').text.strip()
+   # В элементе <div> ищем элемент 'span' и получаем его текстовое содержимое методом .text:
+   div_film_genre = entry.find('span', class_='movieItem_genres').text.strip()
+   # Добавляем новую пару ключ-значение
+   film = {'Название':div_film_name, 'Жанр':div_film_genre, 'Год':div_film_year, 'Рейтинг':div_film_rating}
+   films.append(film)
+print(films)
+df = pd.DataFrame(films)
+#экспорт полученных данных в Excel
+df.to_excel('Топ-1000 сериалов.xlsx')
