@@ -1,0 +1,25 @@
+# Явные ожидания
+import time
+from selenium import webdriver
+from selenium.webdriver.common.by import By
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
+
+def test_photos_present():
+    # Инициализация драйвера
+    driver = webdriver.Chrome()
+    driver.maximize_window()
+
+    # Переход на страницу всех питомцев
+    driver.get("https://petfriends.skillfactory.ru/all_pets")
+
+    # Явное ожидание загрузки фотографий
+    photos = WebDriverWait(driver, 10).until(
+        EC.presence_of_all_elements_located((By.CSS_SELECTOR, ".table td img"))
+    )
+
+    # Проверка наличия фотографий
+    assert len(photos) > 0, "Фотографии питомцев не найдены!"
+
+    # Закрытие браузера
+    driver.quit()
