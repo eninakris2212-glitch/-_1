@@ -1,0 +1,31 @@
+# Неявные ожидания
+import time
+from selenium import webdriver
+from selenium.webdriver.common.by import By
+
+def test_card_pets_implicit_wait():
+    # Настройка неявного ожидания
+    IMPLICIT_WAIT_TIME = 10
+
+
+    driver = webdriver.Chrome()
+    driver.maximize_window()
+    driver.implicitly_wait(IMPLICIT_WAIT_TIME)  # Устанавливаем неявное ожидание
+
+    # Переход на страницу всех питомцев
+    driver.get("https://petfriends.skillfactory.ru/all_pets")
+
+    # Проверка наличия фотографий
+    images = driver.find_elements(By.CSS_SELECTOR, ".card-deck .card-img-top")
+    assert len(images) > 0, "Фотографии питомцев не найдены!"
+
+    # Проверка наличия имён питомцев
+    names = driver.find_elements(By.CSS_SELECTOR, ".card-deck .card-title")
+    assert len(names) > 0, "Имена питомцев не найдены!"
+
+    # Проверка наличия возрастов питомцев
+    ages = driver.find_elements(By.CSS_SELECTOR, ".card-deck .card-text")
+    assert len(ages) > 0, "Возраст питомцев не найден!"
+
+    # Закрытие браузера
+    driver.quit()
